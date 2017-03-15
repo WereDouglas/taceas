@@ -6,9 +6,13 @@
 <style>
     body {
         font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-        font-size: 13px;
+        font-size: 10px;
         background-color:#FFFFFF;
     } 
+    table.dataTable {
+   
+    font-size: 12px;
+}
 </style>
 <link href="<?php echo base_url() ?>assets/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet" />
 <div id="page-wrapper">

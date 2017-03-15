@@ -45,7 +45,7 @@ class Account extends CI_Controller {
 
         $starting = new DateTime($start);
 
-        echo '<div class="panel-body container">';
+
         $get_result = $this->Md->query("SELECT *,agent.name AS agent,account.id AS id FROM  account LEFT JOIN agent ON agent.id= account.agentID  WHERE account.id='" . $ID . "'");
 
         if (!$get_result) {
@@ -53,12 +53,7 @@ class Account extends CI_Controller {
         } else {
             foreach ($get_result as $res) {
 
-                echo ' <div class="form-group row">
-                    <label class="col-sm-4">Agent</label>
-                        <div class="col-sm-4 ">
-                            <input type="text" name="agent" value="' . $res->agent . '"  class="receipt"/>
-                        </div>
-                    </div>';
+                echo 'Agent<input type="text" name="agent" value="' . $res->agent . '"  class="receipt"/>';
                 echo 'Starts :' . $res->start . ' Ends: ' . $res->end;
                 echo '<br>' . ' Expires : ' . $res->expiry;
                 echo '<br>' . 'Commission : ' . $res->commission . '%<br>';
@@ -66,7 +61,7 @@ class Account extends CI_Controller {
                 echo '' . 'Monthly : ' . number_format($res->monthly) . '<br>';
                 //$months = $paid / $res->monthly;
 
-                echo 'DAYS PAID ' . $days_paid = round($paid / $res->daily);
+                $days_paid = round($paid / $res->daily) . '';
 
                 $fiveDays = date("d-m-Y", strtotime($res->end . "+" . $days_paid . "days"));
                 $balance = $res->balance - $paid;
@@ -78,91 +73,104 @@ class Account extends CI_Controller {
                 $interest = (($res->interest) / 100) * $paid;
                 $discount = (($res->discount ) / 100) * $paid;
                 $commission = (($res->commission) / 100) * $paid;
-
-                echo '<div>';
-
                 $get_result2 = $this->Md->query("SELECT * FROM  package  WHERE package.id='" . $res->packageID . "'");
 
                 if (!$get_result2) {
-                    echo '<span style="color:#f00"> No information in the database </strong> does not exist in our database</span>';
+                    echo '<span style="color:#f00"> No information in the database </strong> does not exist in our database</span><br>';
                 } else {
+                    echo '<span style="color:#D3DCE3"> PACKAGE DETAILS</strong></span>';
+
                     foreach ($get_result2 as $res2) {
-                        echo '<input type="hidden" name="package" value="' . $res2->id . '"  class="receipt"/>';
+                        echo '<input type="hidden" name="package" value="' . $res2->id . '"  class="receipt"/><br>';
 
                         $pc = $this->Md->query("SELECT id,name,cost FROM product");
-                        echo ' <div class="form-group row">';
+
                         $ct = 0;
                         $cost = 0;
+                        echo '<table id="items">
+                     <tr>
+		      <th>Item</th>
+		      <th>Description</th>
+		      <th>Unit Cost</th>
+		      
+		  </tr>';
                         foreach ($pc as $bus) {
                             $ct = $ct + 1;
                             if (strpos($res2->products, $bus->id) !== false) {
                                 $cost = $cost + $bus->cost;
-                                echo ' <div class="col-sm-4 "><font color="green">' . $ct . '. ' . $bus->name . ' ' . number_format($bus->cost) . '</font></div>' . '<br>';
+                                echo ' <tr class="item-row">
+		      <td class="item-name">' . $ct . '</td>
+
+		      <td class="description">' . $bus->name . '</td>
+		      <td class=""><font color="green">' . number_format($bus->cost) . '</font></td>
+		     
+		  </tr>';
                             }
                         }
-                        echo ' <strong>TOTAL:</strong><font color="red" style="margin-left:50px;">' . number_format($cost) . '</font>' . '<br>';
-                        echo ' </div>';
+                        echo ' <tr class="item-row">
+		      <td class="item-name"></td>
+
+		      <td class="description"><strong style="color:#D3DCE3">TOTAL:</strong></td>
+		      <td class="total-value balance"><font color="green">' . number_format($cost) . '</font></td>
+		     
+		  </tr>';
+                        echo '</table>';
                     }
                 }
+                echo '<table id="items">
+                     <tr>
+		     
+		      <th>Description</th>
+		      <th>Unit Cost</th>
+		      
+		  </tr>';
 
-                echo ' <div class="form-group row">
-                    <label class="col-sm-4">Balance</label>
-                        <div class="col-sm-4 ">
-                            <input type="text" name="balance" value="' . $balance . '"  class="receipt"/>
-                        </div>
-                    </div>';
-                echo ' <div class="form-group row">
-                    <label class="col-sm-4">Start date</label>
-                        <div class="col-sm-4 ">
-                            <input type="text" name="ending" value="' . $res->end . '"  class="receipt"/>
-                        </div>
-                    </div>';
 
-                echo ' <div class="form-group row">
-                    <label class="col-sm-4">Ending date</label>
-                        <div class="col-sm-4 ">
-                            <input type="text" name="enddate" value="' . $fiveDays . '"  class="receipt"/>
-                        </div>
-                    </div>';
-                echo ' <div class="form-group row">
-                    <label class="col-sm-4">Balance</label>
-                        <div class="col-sm-4 ">
-                            <input type="text" name="balance" value="' . $balance . '"  class="receipt"/>
-                        </div>
-                    </div>';
+              
+                echo '
+                    
+                     
+		  <tr class="item-row">
+                  <td><strong style="color:#D3DCE3">Start date:</strong></td>
+		   <td><input type="text" name="ending" value="' . $res->end . '"  class="receipt"/></td>
+		     
+		  </tr>
+                
+                <tr>
+                    <td><strong style="color:#D3DCE3"> Ending date:</strong></td>
+                    <td><input type="text" name="enddate" value="' . $fiveDays . '"  class="receipt"/></td>
+                </tr>
+                <tr>
 
-                echo ' <div class="form-group row">
-                    <label class="col-sm-4">Complete</label>
-                        <div class="col-sm-4 ">
-                            <input type="text" name="complete" value="' . $complete . '"  class="receipt"/>
-                        </div>
-                    </div>';
-                echo ' <div class="form-group row">
-                    <label class="col-sm-4">Period</label>
-                        <div class="col-sm-4 ">
-                            <input type="text" name="period" value="' . $days_paid . '"  class="receipt"/>
-                        </div>
-                    </div>';
-                echo ' <div class="form-group row">
-                    <label class="col-sm-4">Interest</label>
-                        <div class="col-sm-4 ">
-                            <input type="text" name="interest" value="' . $interest . '"  class="receipt"/>
-                        </div>
-                    </div>';
-                echo ' <div class="form-group row">
-                    <label class="col-sm-4">Discount</label>
-                        <div class="col-sm-4 ">
-                            <input type="text" name="discount" value="' . $discount . '"  class="receipt"/>
-                        </div>
-                    </div>';
+                   
+                    <td class="total-value balance" ><strong style="color:#D3DCE3" > Balance:</strong></td>
+                    <td ><input type="text" name="balance" value="' . $balance . '"  class="receipt"/></td>
+                </tr>
+                <tr>       
+                    <td><strong style="color:#D3DCE3">Complete:</strong></td>
+                    <td><input type="text" name="complete" value="' . $complete . '"  class="receipt"/></td>
+                </tr>
+                <tr>
+                    <td><strong style="color:#D3DCE3">Period :</strong> </td>
+                    <td><input type="text" name="period" value="' . $days_paid . '"  class="receipt"/></td>
 
-                echo ' <div class="form-group row">
-                    <label class="col-sm-4">Commission</label>
-                        <div class="col-sm-4 ">
-                            <input type="text" name="commission" value="' . $commission . '"  class="receipt"/>
-                        </div>
-                    </div>';
-            }
+                </tr>
+                <tr>                   
+                    <td><strong style="color:#D3DCE3">Interest:</strong></td>
+                    <td><input type="text" name="interest" value="' . $interest . '"  class="receipt"/></td>
+                </tr>
+                <tr>                   
+                    <td><strong style="color:#D3DCE3">Discount:</strong></td>
+                    <td><input type="text" name="discount" value="' . $discount . '"  class="receipt"/></td>
+                </tr>
+                <tr>                   
+                    <td><strong style="color:#D3DCE3"> Commission:</strong></td>
+                    <td><input type="text" name="commission" value="' . $commission . '"  class="receipt"/></td>
+                </tr>
+
+            ';
+                echo '</table>';
+               }
         }
     }
 

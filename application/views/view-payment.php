@@ -3,12 +3,17 @@
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>css/icon.css?date=<?php echo date('Y-m-d') ?>">
 
 <link rel="stylesheet" href="<?= base_url(); ?>css/mine.css?mine=<?php echo date('Y-m-d'); ?>" />
+
 <style>
     body {
         font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-        font-size: 13px;
+        font-size: 10px;
         background-color:#FFFFFF;
     } 
+    table.dataTable {
+   
+    font-size: 12px;
+}
 </style>
 <link href="<?php echo base_url() ?>assets/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet" />
 <div id="page-wrapper">

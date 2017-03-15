@@ -122,7 +122,7 @@
                         <form id="station-form" parsley-validate novalidate role="form" class="form-horizontal" name="login-form" enctype="multipart/form-data"  action='<?= base_url(); ?>index.php/package/create'  method="post">
                             <div class=" item form-group">
                                 <label class="control-label col-md-12 col-sm-12 col-xs-12">Products</label>
-                                <div class="col-md-12 col-sm-12 col-xs-12">
+                             
 
                                     <input class="easyui-combobox form-control" name="productID[]" id="productID" style="width:100%;height:26px" data-options="
                                            url:'<?php echo base_url() ?>index.php/product/lists',
@@ -132,42 +132,51 @@
                                            multiple:true,
                                            panelHeight:'auto'
                                            ">
-                                </div>
+                                
                             </div>
                             <div class="form-group">
-                                <div class="col-sm-10">
+                               
                                     <input type="text" name="name" placeholder="Name" id="name" required class="form-control"/>
-                                </div>
+                               
                             </div>
                             <div class="form-group">
-                                <div class="col-sm-10">
+                                
                                     <input type="text" name="description" placeholder="Description" id="description" required class="form-control"/>
-                                </div>
+                               
                             </div>
                             <div class="form-group">
-                                <div class="col-sm-10">
-                                    <input type="text" name="interest" placeholder="Interest" id="interest"  class="form-control"/>
-                                </div>
+                                <label>Interest(%)</label>
+                                  <input class="easyui-combobox form-control" name="interest" id="interest" style="width:100%;height:26px" data-options="
+                                            url:'<?php echo base_url() ?>index.php/interest/lists',
+                                            method:'get',
+                                            valueField:'percentage',
+                                            textField:'percentage',
+                                            multiple:false,
+                                            panelHeight:'auto'
+                                            ">  
                             </div>
-                            <div class="form-group">
-                                <div class="col-sm-10">
-                                    <input type="text" name="discount" placeholder="Discount" id="discount"  class="form-control"/>
-                                </div>
+                             <div class="form-group">
+                               <label>Fixed initial %</label>
+                               <input type="text" name="initial" value="20" placeholder="Fixed initial %" id="initial"  class="form-control"/>
+                           
                             </div>
+                          
                             <div class="form-group">
-                                <div class="col-sm-10">
+                              
                                     <input type="text" name="cost" placeholder="Package Cost" id="cost"  class="form-control"/>
-                                </div>
+                           
                             </div>
+                            <span id="loading"  name ="loading"><img src="<?= base_url(); ?>images/loading.gif" alt="loading......" /></span>                                   
+                       
 
                             <div class="form-group">
-                                <div class=" col-sm-10">
+                               
                                     <div class="checkbox checkbox_margin">
                                         <button class="btn btn-default pull-right" type="submit">SUBMIT</button>
                                         <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Close</button>
 
                                     </div>
-                                </div>
+                               
                             </div>
 
                         </form>
@@ -185,6 +194,7 @@
 <script src="<?php echo base_url() ?>assets/plugins/bootstrap/bootstrap.min.js"></script>
 <script>
     $(document).ready(function () {
+        $('#loading').hide();
         $("#status").hide();
         $(function () {
             //acknowledgement message
@@ -206,7 +216,37 @@
             });
 
         });
+         $('#cost').blur(function () {
+            PaymentDetails('ele');
+        });
     });
+    
+     function PaymentDetails(ele) {
+
+        //$("#tenantname").val($("input[name=tenant]").val());
+        // $("#dater").val($("input[name=date]").val());
+        var cost = $("#cost").val(); 
+         var initial = $("#initial").val(); 
+        var interest = $("input[name=interest]").val();
+      
+        if (cost !== null) {           // show loader 
+            $('#loading').show();
+            $.post("<?php echo base_url() ?>index.php/package/payments", {
+                cost: cost, interest: interest,initial:initial
+            }, function (response) {
+                //#emailInfo is a span which will show you message
+                $('#loading').hide();
+                setTimeout(finishAjax('loading', escape(response)), 400);
+            });
+        }
+
+        function finishAjax(id, response) {
+            $('#' + id).html(unescape(response));
+            $('#' + id).fadeIn();
+        }
+
+    }
+
 
 </script>
 <script src="<?php echo base_url() ?>assets/plugins/dataTables/jquery.dataTables.js"></script>

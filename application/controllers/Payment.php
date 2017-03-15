@@ -83,15 +83,15 @@ class Payment extends CI_Controller {
         } else {
             echo '
                 <div class="form-group">
-                    <div class="col-sm-12">
-                        <label class="col-sm-12" >Please select the account</label>
+                  
+                       
                         <select class="form-control" id="account" name="account">
                             <option value="">Select account ...</option>';
             foreach ($get_result as $res) {
 
                 echo '<option value="' . $res->id . '">' . 'ACC ' . $res->id . '</option> ';
             }
-            echo '</select> </div></div>';
+            echo '</select> </div>';
         }
     }
 
