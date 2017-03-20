@@ -33,27 +33,51 @@ class Package extends CI_Controller {
         $this->load->view('view-package', $data);
     }
 
+    public function view() {
+
+        $query = $this->Md->query("SELECT * FROM package");
+
+        if ($query) {
+            $data['dis'] = $query;
+        } else {
+            $data['dis'] = array();
+        }
+        $query = $this->Md->query("SELECT id,name,cost FROM product");
+
+        if ($query) {
+            $data['prods'] = $query;
+        } else {
+            $data['prods'] = array();
+        }
+        $this->load->view('view-packages', $data);
+    }
+
     public function details() {
 
         $this->load->helper(array('form', 'url'));
         $ID = trim($this->input->post('packageID'));
         $start = trim(date('d-m-Y', strtotime($this->input->post('start'))));
-        $end = trim(date('d-m-Y', strtotime($this->input->post('end'))));
-        $interest = trim(date('d-m-Y', strtotime($this->input->post('interest'))));
+        $period = trim($this->input->post('period'));
+        $end = trim(date('d-m-Y', strtotime('+' . $period . ' month', strtotime($start))));
         $paid = trim($this->input->post('paid'));
 
-        $date1 = new DateTime($start);
-        $date2 = new DateTime($end);
-        $diff = $date2->diff($date1)->format("%a");
-        $interval = date_diff($date1, $date2);
-        $months = $interval->m + ($interval->y * 12) . ' months';
+        $months = $period;
         echo '<div class="panel-body container">';
         $get_result = $this->Md->query("SELECT * FROM  package  WHERE package.id='" . $ID . "'");
         // var_dump($get_result);
         if (!$get_result) {
             echo '<span style="color:#f00"> No information in the database </strong> does not exist in our database</span>';
         } else {
+
+            echo ' <div class="form-group">
+                    <label ">End date</label>                     
+                            <input type="text" name="end" value="' . $end . '"  class="form-control"/>
+                     
+                    </div>';
             foreach ($get_result as $res) {
+                $costing = $res->cost;
+                $initial = $res->initial;
+                $interest = $res->interest;
 
                 echo ' <div class="form-group row">
                     <label class="col-sm-4">Cost</label>
@@ -64,7 +88,7 @@ class Package extends CI_Controller {
                 echo '<input type="hidden" name="package" value="' . $res->id . '"  class="receipt"/>';
 
                 $pc = $this->Md->query("SELECT id,name,cost FROM product");
-                echo ' <div class="form-group row">';
+                echo ' <div class="form-group">';
                 $ct = 0;
                 $cost = 0;
                 foreach ($pc as $bus) {
@@ -80,88 +104,63 @@ class Package extends CI_Controller {
         }
         $overtotal = (($interest / 100) * $cost) + $cost;
         $balance = $overtotal - $paid;
-        echo ' <div class="form-group row">
-                    <label class="col-sm-4">Period(Days)</label>
-                        <div class="col-sm-2 ">
-                            <input type="text" name="days" value="' . $diff . '"  class="receipt"/>
-                        </div>
-                        <label class="col-sm-4">Daily cost</label>
-                        <div class="col-sm-2 ">
-                            <input type="text" name="daily" value="' . round($overtotal / $diff) . '"  class="receipt"/>
-                        </div>
-                    </div>';
-        echo 'DAYS PAID ' . $days_paid = round($paid / (round($overtotal / $diff)));
-
+       
+        
         $fiveDays = date("d-m-Y", strtotime($start . "+" . $days_paid . "days"));
         if ($balance > 0) {
             $complete = "false";
         } else {
             $complete = "true";
         }
-        //echo '<br>'. $fiveDays; // Will output 2015-06-20
+       
 
+        echo '<div>';
+        $interest = $interest;
+        $cost = $costing;
+        $initial = $initial;
+
+        $initial_pay = ($initial / 100) * $cost;
+        echo'<div class="form-group">
+                            <label>Down payment</label>
+                            <input type="number" name="down" value="' . $initial_pay . '" placeholder="Down payment" id="down"  class="form-control"/>
+                        </div>';
+
+
+        $debt_principal = $cost - $initial_pay;
         echo ' <div class="form-group row">
+                    <label class="col-sm-4">Balance</label>
+                        <div class="col-sm-4 ">
+                            <input type="text" name="balance" value="' . $debt_principal . '"  class="receipt"/>
+                        </div>
+                    </div>';
+         $days = ($months * 4.33) * 7;
+
+       
+        $interest_on_loan = ($interest / 100) * $debt_principal;
+
+        $total_loan = $debt_principal + $interest_on_loan;
+         echo ' <div class="form-group row">
+                    <label class="col-sm-4">Period(Days)</label>
+                        <div class="col-sm-2 ">
+                            <input type="text" name="days" value="' . round($days ). '"  class="receipt"/>
+                        </div>
+                        <label class="col-sm-4">Daily cost</label>
+                        <div class="col-sm-2 ">
+                            <input type="text" name="daily" value="' .round(($total_loan / $days), -3) . '"  class="receipt"/>
+                        </div>
+                    </div>';
+             echo ' <div class="form-group row">
                     <label class="col-sm-4">Period(Months)</label>
                         <div class="col-sm-2 ">
                             <input type="text" name="months" value="' . round($months) . '"  class="receipt"/>
                         </div>
                          <label class="col-sm-4">Monthly cost</label>
                         <div class="col-sm-2 ">
-                            <input type="text" name="monthly" value="' . round($overtotal / $months) . '"  class="receipt"/>
-                        </div>
-                    </div>';
-        echo ' <div class="form-group row">
-                    <label class="col-sm-4">Ending date</label>
-                        <div class="col-sm-4 ">
-                            <input type="text" name="startdate" value="' . $fiveDays . '"  class="receipt"/>
+                            <input type="text" name="monthly" value="' . round(($total_loan  / $months), -3) . '"  class="receipt"/>
                         </div>
                     </div>';
 
-        echo ' <div class="form-group row">
-                    <label class="col-sm-4">Ending date</label>
-                        <div class="col-sm-4 ">
-                            <input type="text" name="enddate" value="' . $fiveDays . '"  class="receipt"/>
-                        </div>
-                    </div>';
-        echo ' <div class="form-group row">
-                    <label class="col-sm-4">Balance</label>
-                        <div class="col-sm-4 ">
-                            <input type="text" name="balance" value="' . $balance . '"  class="receipt"/>
-                        </div>
-                    </div>';
 
-        echo ' <div class="form-group row">
-                    <label class="col-sm-4">Complete</label>
-                        <div class="col-sm-4 ">
-                            <input type="text" name="complete" value="' . $complete . '"  class="receipt"/>
-                        </div>
-                    </div>';
-        echo ' <div class="form-group row">
-                    <label class="col-sm-4">Period</label>
-                        <div class="col-sm-4 ">
-                            <input type="text" name="period" value="' . $days_paid . '"  class="receipt"/>
-                        </div>
-                    </div>';
-
-        echo '<div>';
-    }
-
-    public function payments() {
-
-        $this->load->helper(array('form', 'url'));
-
-        $interest = $this->input->post('interest');
-        $cost = $this->input->post('cost');
-        $initial = $this->input->post('initial');
-// $interest = 25;
-//        $cost = 360000;
-//        $initial = 20;
-        $initial_pay = ($initial / 100) * $cost;
-     
-        $debt_principal = $cost - $initial_pay;
-        $interest_on_loan = ($interest / 100) * $debt_principal;
-    
-         $total_loan = $debt_principal + $interest_on_loan;
 
         $monthly_12 = ($total_loan / 12);
         $monthly_9 = ($total_loan / 9);
@@ -173,7 +172,7 @@ class Package extends CI_Controller {
         $daily_9 = round(($weekly_9 / 7), -2);
         $weekly_6 = round(($monthly_6 / 4.33), -3);
         $daily_6 = round(($weekly_6 / 7), -2);
-         $weekly_3 = round(($monthly_3 / 4.33), -3);
+        $weekly_3 = round(($monthly_3 / 4.33), -3);
         $daily_3 = round(($weekly_3 / 7), -2);
 
 
@@ -187,31 +186,101 @@ class Package extends CI_Controller {
   </tr>
   <tr>
     <td>3</td>
-    <td>' .number_format(  $daily_3 ). '</td> 
-    <td>' .number_format(  $weekly_3 ) . '</td>
-    <td>' .number_format(  $monthly_3  ). '</td> 
-    <td>' .number_format(  $total_loan  ). '</td>
+    <td>' . number_format($daily_3) . '</td> 
+    <td>' . number_format($weekly_3) . '</td>
+    <td>' . number_format($monthly_3) . '</td> 
+    <td>' . number_format($total_loan) . '</td>
   </tr>
   <tr>
     <td>6 </td>
-    <td>' . number_format( $daily_6  ). '</td> 
-    <td>' .number_format(  $weekly_6 ) . '</td>
-    <td>' .number_format(  $monthly_6 ) . '</td> 
-    <td>' . number_format( $total_loan ) . '</td>
+    <td>' . number_format($daily_6) . '</td> 
+    <td>' . number_format($weekly_6) . '</td>
+    <td>' . number_format($monthly_6) . '</td> 
+    <td>' . number_format($total_loan) . '</td>
   </tr>
   <tr>
     <td>9 </td>
-     <td>' .number_format(  $daily_9  ). '</td> 
-    <td>' .number_format(  $weekly_9  ). '</td>
-    <td>' .number_format(  $monthly_9 ) . '</td> 
-    <td>' . number_format( $total_loan  ). '</td>
+     <td>' . number_format($daily_9) . '</td> 
+    <td>' . number_format($weekly_9) . '</td>
+    <td>' . number_format($monthly_9) . '</td> 
+    <td>' . number_format($total_loan) . '</td>
   </tr>
   <tr>
     <td>12</td>
-    <td>' .number_format( $daily_12) . '</td> 
-    <td>' . number_format( $weekly_12 ) . '</td>
-    <td>' .number_format(  $monthly_12 ) . '</td> 
-    <td>' . number_format( $total_loan ) . '</td>
+    <td>' . number_format($daily_12) . '</td> 
+    <td>' . number_format($weekly_12) . '</td>
+    <td>' . number_format($monthly_12) . '</td> 
+    <td>' . number_format($total_loan) . '</td>
+  </tr>
+</table>';
+    }
+
+    public function payments() {
+
+        $this->load->helper(array('form', 'url'));
+
+        $interest = $this->input->post('interest');
+        $cost = $this->input->post('cost');
+        $initial = $this->input->post('initial');
+// $interest = 25;
+//        $cost = 360000;
+//        $initial = 20;
+        $initial_pay = ($initial / 100) * $cost;
+
+        $debt_principal = $cost - $initial_pay;
+        $interest_on_loan = ($interest / 100) * $debt_principal;
+
+        $total_loan = $debt_principal + $interest_on_loan;
+
+        $monthly_12 = ($total_loan / 12);
+        $monthly_9 = ($total_loan / 9);
+        $monthly_6 = (($total_loan / 6) );
+        $monthly_3 = (($total_loan / 3));
+        $weekly_12 = round(($monthly_12 / 4.33), -3);
+        $daily_12 = round(($weekly_12 / 7), -2);
+        $weekly_9 = round(($monthly_9 / 4.33), -3);
+        $daily_9 = round(($weekly_9 / 7), -2);
+        $weekly_6 = round(($monthly_6 / 4.33), -3);
+        $daily_6 = round(($weekly_6 / 7), -2);
+        $weekly_3 = round(($monthly_3 / 4.33), -3);
+        $daily_3 = round(($weekly_3 / 7), -2);
+
+
+        echo '<table style="width:100%">
+  <tr>
+    <th>MONTHS</th>
+    <th>DAILY</th> 
+    <th>WEEKLY</th>
+    <th>MONTHLY</th>
+    <th>TOTAL</th>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td>' . number_format($daily_3) . '</td> 
+    <td>' . number_format($weekly_3) . '</td>
+    <td>' . number_format($monthly_3) . '</td> 
+    <td>' . number_format($total_loan) . '</td>
+  </tr>
+  <tr>
+    <td>6 </td>
+    <td>' . number_format($daily_6) . '</td> 
+    <td>' . number_format($weekly_6) . '</td>
+    <td>' . number_format($monthly_6) . '</td> 
+    <td>' . number_format($total_loan) . '</td>
+  </tr>
+  <tr>
+    <td>9 </td>
+     <td>' . number_format($daily_9) . '</td> 
+    <td>' . number_format($weekly_9) . '</td>
+    <td>' . number_format($monthly_9) . '</td> 
+    <td>' . number_format($total_loan) . '</td>
+  </tr>
+  <tr>
+    <td>12</td>
+    <td>' . number_format($daily_12) . '</td> 
+    <td>' . number_format($weekly_12) . '</td>
+    <td>' . number_format($monthly_12) . '</td> 
+    <td>' . number_format($total_loan) . '</td>
   </tr>
 </table>';
     }

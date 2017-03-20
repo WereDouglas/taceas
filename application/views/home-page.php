@@ -12,6 +12,7 @@
         <link href="<?php echo base_url(); ?>assets/css/main-style.css" rel="stylesheet" />
         <!-- Page-Level CSS -->
         <link href="<?php echo base_url(); ?>assets/plugins/morris/morris-0.4.3.min.css" rel="stylesheet" />
+      
     </head>
     <body>
         <!--  wrapper -->
@@ -26,14 +27,21 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">
-                       
-                        <img height="80px" width="80px" src="<?php echo base_url(); ?>images/barcode.png" alt="" />
-                    </a>
+                    <img height="80px" width="100px" src="<?php echo base_url(); ?>images/logo.png" alt="" />
+
                 </div>
                 <!-- end navbar-header -->
                 <!-- navbar-top-links -->
                 <ul class="nav navbar-top-links navbar-right">
+                    <li>
+
+                        <div>
+                            <img height="50px" width="50px" src="<?php echo base_url(); ?>images/temp.png" alt="">
+                        </div>
+                        <div><strong>Tom Matovu</strong></div>                                  
+
+
+                    </li>
                     <!-- main dropdown -->
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -259,13 +267,7 @@
                     <ul class="nav" id="side-menu">
                         <li>
                             <!-- user image section-->
-                            <div class="user-info">
-                                <div class="img">
-                                    <img height="50px" width="50px" src="<?php echo base_url(); ?>images/temp.png" alt="">
-                                </div>
-                                <div><strong>Tom Matovu</strong></div>                                  
-                                
-                            </div>
+
                             <!--end user image section-->
                         </li>
 
@@ -279,21 +281,21 @@
                                 <li class="text-right" >
                                     <a target="frame" href="<?php echo base_url() . "index.php/payment/pay"; ?>">Pay<i class="fa fa-tablet fa-1x"></i></a>
                                 </li>
-                                 <li class="text-right"> 
+                                <li class="text-right"> 
                                     <a target="frame" href="<?php echo base_url() . "index.php/payment/add"; ?>"></i>New customer<i class="fa fa-crosshairs fa-1x"></i></a>
                                 </li>
-                                
+
                             </ul>
                             <!-- second-level-items -->
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-tablet fa-fw"></i>Reports<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level right">
-                                
+
                                 <li class="text-right" >
                                     <a target="frame" href="<?php echo base_url() . "index.php/account/"; ?>">Accounts<i class="fa fa-globe fa-1x"></i></a>
                                 </li>
-                                  <li class="text-right" >
+                                <li class="text-right" >
                                     <a target="frame" href="<?php echo base_url() . "index.php/payment/"; ?>">Transactions<i class="fa fa-globe fa-1x"></i></a>
                                 </li>
                                 <li class="text-right" >
@@ -308,17 +310,17 @@
                         <li>
                             <a href="#"><i class="fa fa-building-o fa-fw"></i>Inventory<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
-                                 <li class="text-right" >
+                                <li class="text-right" >
                                     <a target="frame" href="<?php echo base_url() . "index.php/product/"; ?>">Products<i class="fa fa-globe fa-1x"></i></a>
                                 </li>
-                                 <li class="text-right" >
+                                <li class="text-right" >
                                     <a target="frame" href="<?php echo base_url() . "index.php/package/"; ?>">Package<i class="fa fa-globe fa-1x"></i></a>
                                 </li>
 
                                 <li class="text-right" >
                                     <a target="frame" href="<?php echo base_url() . "index.php/store/"; ?>">Stores<i class="fa fa-globe fa-1x"></i></a>
                                 </li>
-                                 <li class="text-right" >
+                                <li class="text-right" >
                                     <a target="frame" href="<?php echo base_url() . "index.php/inventory/"; ?>">Stock<i class="fa fa-globe fa-1x"></i></a>
                                 </li>
                             </ul>
@@ -334,22 +336,22 @@
                         <li>
                             <a href="#"><i class="fa fa-building-o fa-fw"></i>Structure<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
-                                  <li class="text-right" >
+                                <li class="text-right" >
                                     <a target="frame" href="<?php echo base_url() . "index.php/region/"; ?>"><i class="fa fa-upload fa-fw"></i>Region</a>
                                 </li>
-                                   <li class="text-right" >
+                                <li class="text-right" >
                                     <a target="frame" href="<?php echo base_url() . "index.php/district/"; ?>"><i class="fa fa-globe fa-fw"></i>District</a>
                                 </li>
-                                   <li class="text-right" >
+                                <li class="text-right" >
                                     <a target="frame" href="<?php echo base_url() . "index.php/county/"; ?>"><i class="fa fa-crosshairs fa-fw"></i>County</a>
                                 </li>
-                                  <li class="text-right" >
+                                <li class="text-right" >
                                     <a target="frame" href="<?php echo base_url() . "index.php/subcounty/"; ?>"><i class="fa fa-crosshairs fa-fw"></i>Sub-County</a>
                                 </li>
-                                   <li class="text-right" >
+                                <li class="text-right" >
                                     <a target="frame" href="<?php echo base_url() . "index.php/parish/"; ?>"><i class="fa fa-bell fa-fw"></i>Parish</a>
                                 </li>
-                                   <li class="text-right" >
+                                <li class="text-right" >
                                     <a target="frame" href="<?php echo base_url() . "index.php/village/"; ?>"><i class="fa fa-globe fa-fw"></i>Villages</a>
                                 </li>   
 

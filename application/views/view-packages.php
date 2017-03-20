@@ -34,16 +34,17 @@
                         <div class="alert alert-info" id="status"></div>
                         <div class="panel-body">
                             <div class="table-responsive">
-                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">   <thead>
+                                <table class="table table-striped table-bordered table-hover">
+                                    <thead>
                                         <tr>
                                             <th>ID</th>
                                             <th>Name</th>
                                             <th>Description</th>
                                             <th><font color="blue">Products</font></th>
                                             <th>Interest(%)</th>
-                                            <th>Fixed Initial(%)</th> 
+                                            <th>Initial Deposit(%)</th> 
                                             <th>Cost</th>  
-                                            <th class="hidden-phone">Actions</th>
+
 
                                         </tr>
                                     </thead>
@@ -89,11 +90,80 @@
                                                         <?php echo $loop->cost; ?>
                                                     </td>
 
-                                                    <td class="edit_td">
-                                                        <a class="btn btn-danger btn-xs" href="<?php echo base_url() . "index.php/package/delete/" . $loop->id; ?>"><li class="fa fa-trash-o">Delete</li></a>
 
-                                                    </td> 
 
+                                                </tr>
+                                                <tr class="even">
+                                                    <td  colspan="7">
+                                                        <?php
+                                                        $interest = $loop->interest;
+                                                        $cost = $loop->cost;
+                                                        $initial = $loop->initial;
+
+                                                        $initial_pay = ($initial / 100) * $cost;
+
+                                                        $debt_principal = $cost - $initial_pay;
+                                                        $interest_on_loan = ($interest / 100) * $debt_principal;
+
+                                                        $total_loan = $debt_principal + $interest_on_loan;
+
+                                                        $monthly_12 = ($total_loan / 12);
+                                                        $monthly_9 = ($total_loan / 9);
+                                                        $monthly_6 = (($total_loan / 6) );
+                                                        $monthly_3 = (($total_loan / 3));
+                                                        $weekly_12 = round(($monthly_12 / 4.33), -3);
+                                                        $daily_12 = round(($weekly_12 / 7), -2);
+                                                        $weekly_9 = round(($monthly_9 / 4.33), -3);
+                                                        $daily_9 = round(($weekly_9 / 7), -2);
+                                                        $weekly_6 = round(($monthly_6 / 4.33), -3);
+                                                        $daily_6 = round(($weekly_6 / 7), -2);
+                                                        $weekly_3 = round(($monthly_3 / 4.33), -3);
+                                                        $daily_3 = round(($weekly_3 / 7), -2);
+
+
+                                                        echo '<table style="width:100%">
+  <tr>
+    <th>MONTHS</th>
+    <th>DAILY</th> 
+    <th>WEEKLY</th>
+    <th>MONTHLY</th>
+    <th>TOTAL</th>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td>' . number_format($daily_3) . '</td> 
+    <td>' . number_format($weekly_3) . '</td>
+    <td>' . number_format($monthly_3) . '</td> 
+    <td>' . number_format($total_loan) . '</td>
+  </tr>
+  <tr>
+    <td>6 </td>
+    <td>' . number_format($daily_6) . '</td> 
+    <td>' . number_format($weekly_6) . '</td>
+    <td>' . number_format($monthly_6) . '</td> 
+    <td>' . number_format($total_loan) . '</td>
+  </tr>
+  <tr>
+    <td>9 </td>
+     <td>' . number_format($daily_9) . '</td> 
+    <td>' . number_format($weekly_9) . '</td>
+    <td>' . number_format($monthly_9) . '</td> 
+    <td>' . number_format($total_loan) . '</td>
+  </tr>
+  <tr>
+    <td>12</td>
+    <td>' . number_format($daily_12) . '</td> 
+    <td>' . number_format($weekly_12) . '</td>
+    <td>' . number_format($monthly_12) . '</td> 
+    <td>' . number_format($total_loan) . '</td>
+  </tr>
+</table>';
+                                                        ?>
+                                                    </td>
+                                                </tr>
+                                                <tr class="even">
+                                                    <td  colspan="7">
+                                                    </td>
                                                 </tr>
                                                 <?php
                                             }

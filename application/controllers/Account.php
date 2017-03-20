@@ -179,7 +179,7 @@ class Account extends CI_Controller {
         $this->load->helper(array('form', 'url'));
         //user information
         // $userID = $this->GUID();
-        $name = $this->input->post('name');
+        $name = $this->input->post('name').' '.$this->input->post('last_name');
 
         if ($name != "") {
             ///organisation image uploads

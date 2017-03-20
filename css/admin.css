@@ -1,7 +1,5 @@
 @charset "utf-8";
-/* CSS Document */
-@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300,600);
-@import url(http://fonts.googleapis.com/css?family=Raleway:400,200,300,500,100,600);
+
 
 h1, h2, h3, h4, h5, h6{margin:0px; padding:0px;}
 body { font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 13px; background-color:#262a33;}
@@ -176,7 +174,7 @@ img {border: 0!important;}
 .dark_theme .left_nav_active{background:#213347;}
 .dark_theme .left_nav_active a{color:#f2f2f2;}
 .dark_theme .left_nav_active ul li a{color:#6E778C;}
-.dark_theme .left_nav_sub_active b{color:#;}
+
 
 .light_theme .brand{background-color:#F6F6F6; color:#908c8d;}
 .light_theme .header_top_bar{ background-color:#FFF;color:#6e778c;}
@@ -331,8 +329,6 @@ box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.2);}
 .code{ font-size:82%;}
 .opened{ display:block;}
 .theme_bg{background: #5dcff3; color:#fff!important;}
-.theme_color{color:#f35958;!important;}
-.theme_border{border-color:#f35958;!important;}
 
 
 .breadcrumb_admin{width:100%; background:#fff; box-shadow:0 2px 2px rgba(0, 0, 0, 0.05), 0 1px 0 rgba(0, 0, 0, 0.05); margin-bottom:15px;}

@@ -20,10 +20,10 @@
 
     }
     .form-control {
-   
-    border-radius: 0px;
-    
-}
+
+        border-radius: 0px;
+
+    }
 </style>
 
 <link href="<?php echo base_url() ?>assets/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet" />
@@ -68,37 +68,37 @@
             <table id="items">
 
                 <tr>
-                    <th>Customer details</th>
-                    <th colspan="3"></th>
+                    <th colspan="5">Customer details</th>
 
 
                 </tr>
 
                 <tr class="item-row">
-                    <td class="item-name">
-
-                        <input type="text" name="name" placeholder="Name" id="name" required class="form-control"/>
-
-                        <input type="text" name="contact" placeholder="Contact" id="contact" required class="form-control"/>
-                        <input type="text" name="email" placeholder="E-mail" id="email"  class="form-control"/>
-
-                        <input type="text" name="nok" placeholder="Next of kin" id="nok"  class="form-control"/>                      
-
-                        </div>
-                        <label class="control-label col-md-12 col-sm-12 col-xs-12">Profile picture</label>  
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input type="file" name="userfile" id="userfile" class="btn-default btn-small"/>
-                            <div id="imagePreview" ></div>      
-                        </div>
-                    </td>
-                    <td class="description">
-
-                    </td>
-
-                    <td> 
+                    <td class="item-name" colspan="2">
                         <div class="form-group">
-                            <input class="easyui-combobox form-control" name="agentID" id="agentID" style="width:100%;height:26px" data-options="
-                                   url:'<?php echo base_url() ?>index.php/agent/lists',
+                            <label >Fast name</label>
+                            <input type="text" name="name" placeholder="First name" id="name" required class="form-control"/>
+                        </div>
+                        <div class="form-group">
+                            <label >Last name</label>
+                            <input type="text" name="last_name" placeholder="Last name" id="last_name" required class="form-control"/>
+                        </div>
+                        <div class="form-group">
+                            <label >Mobile</label>
+                            <input type="text" name="contact" placeholder="Mobile" id="contact" required class="form-control"/>
+                        </div>
+                        <div class="form-group">
+                            <label >E-mail</label>
+                            <input type="text" name="email" placeholder="E-mail" id="email"  class="form-control"/>
+                        </div>
+                        <div class="form-group">
+                            <label >LC/Local Council</label>
+                            <input type="text" name="lc" placeholder="LC" id="lc"  class="form-control"/>
+                        </div>
+                        <div class="form-group">
+                            <label>Village</label>
+                            <input class="easyui-combobox form-control" name="village" id="village" style="width:100%;height:26px" data-options="
+                                   url:'<?php echo base_url() ?>index.php/village/lists',
                                    method:'get',
                                    valueField:'id',
                                    textField:'name',
@@ -106,18 +106,109 @@
                                    panelHeight:'auto'
                                    ">     
                         </div>
+                        <div class="form-group">
+                            <label>Sub county</label>
+                            <input class="easyui-combobox form-control" name="subcounty" id="subcounty" style="width:100%;height:26px" data-options="
+                                   url:'<?php echo base_url() ?>index.php/subcounty/lists',
+                                   method:'get',
+                                   valueField:'id',
+                                   textField:'name',
+                                   multiple:false,
+                                   panelHeight:'auto'
+                                   ">     
+                        </div>
+                        <div class="form-group">
+                            <label>District</label>
+                            <input class="easyui-combobox form-control" name="village" id="village" style="width:100%;height:26px" data-options="
+                                   url:'<?php echo base_url() ?>index.php/district/lists',
+                                   method:'get',
+                                   valueField:'id',
+                                   textField:'name',
+                                   multiple:false,
+                                   panelHeight:'auto'
+                                   ">     
+                        </div>
+
+
+
+                    </td>
+
+                    <td colspan="2"> 
+                   
+
+                        <div class="form-group">
+                            <label >ID No.</label>
+                            <input type="text" name="idno" placeholder="ID No." id="idno"  class="form-control"/>
+                        </div>
+
+                        <div class="form-group">
+                            <label >Next of kin</label>
+                            <input type="text" name="nok" placeholder="Next of kin" id="nok"  class="form-control"/>                      
+                        </div>
+                        <div class="form-group">
+                            <label >Next of kin phone</label>
+                            <input type="text" name="nok" placeholder="Next of kin" id="nok"  class="form-control"/>                      
+                        </div>
+                        <div class="form-group">
+                            <label >Relationship</label>
+                            <input type="text" name="nok" placeholder="Next of kin" id="nok"  class="form-control"/>                      
+                        </div>
+                        <div class="form-group">
+                            <label>District</label>
+                            <input class="easyui-combobox form-control" name="village" id="village" style="width:100%;height:26px" data-options="
+                                   url:'<?php echo base_url() ?>index.php/district/lists',
+                                   method:'get',
+                                   valueField:'id',
+                                   textField:'name',
+                                   multiple:false,
+                                   panelHeight:'auto'
+                                   ">     
+                        </div>
+                             <div class="form-group">
+                            <label class="control-label col-md-12 col-sm-12 col-xs-12">ID/ picture</label>  
+
+                            <input type="file" name="userfile" id="userfile" class="btn-default btn-small"/>
+                            <div id="imagePreview" ></div>      
+                        </div>
+
                     </td>
                     <td></td>
                 </tr>
                 <tr>
-                    <th></th>
-                    <th colspan="3">Package details</th>
+
+
+                    <th colspan="5">Package details</th>
 
                 </tr>
                 <tr>
-                    <td> <input type="text" name="meterNo" placeholder="Meter No." id="paid"  class="form-control"/>
+
+
+                    <td colspan="2"> 
+                        <div class="form-group">
+                            <label>Date</label>
+                            <input class="easyui-datebox form-control" name="start" id="start" style="width:100%;height:26px;border:0;">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Quantity</label>
+                            <input type="number" name="qty" placeholder="Quantity" id="qty"  class="form-control"/>
+                        </div>
+                        <div class="form-group">
+                            <label>Period(Months)</label>
+                            <input type="number" name="period" placeholder="Period(Months)" id="period"  class="form-control"/>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Installation cost</label>
+                            <input type="number" name="installation" placeholder="Installation cost" id="installation"  class="form-control"/>
+                        </div>
+                        <div class="form-group">
+                            <label>Installed by</label>
+                            <input type="number" name="installed_by" placeholder="Installed by" id="installed_by"  class="form-control"/>
+                        </div>
                     </td>
                     <td colspan="3">
+                        <label >Select package</label>
                         <input class="easyui-combobox form-control" name="packageID" id="packageID" style="width:100%;height:26px;border:0;" data-options="
                                url:'<?php echo base_url() ?>index.php/package/lists',
                                method:'get',
@@ -128,98 +219,58 @@
                                onChange: function(rec){
                                SelectedRole('info');
                                }
-                               "></td>
+                               ">
+                        <span id="loading"  name ="loading"><img src="<?= base_url(); ?>images/loading.gif" alt="loading......" /></span>                                   
 
-                </tr>
-                <tr>
-                    <th colspan="4">
-                        <div class="container">  
-                            <span id="loading"  name ="loading"><img src="<?= base_url(); ?>images/loading.gif" alt="loading......" /></span>                                   
-                        </div> 
-                    </th>
-
-                </tr>
-                <tr>
-                    <th colspan="4">DETAILS </th>
-
-                </tr>
-                <tr>
-                    <td>  </td>
-                    <td>  <label>Commission</label></td>
-                    <td colspan="2"><input type="number" name="commission" placeholder="Commission" id="commission"  class="form-control"/>
                     </td>
 
+                </tr>
+
+                <tr>
+                    <th colspan="5">DETAILS </th>
 
                 </tr>
                 <tr>
-                    <td> </td>
-                    <td> Interest  </td>
-                    <td colspan="2"> <input class="easyui-combobox form-control" name="interestID" id="interestID" style="width:100%;height:26px" data-options="
-                                            url:'<?php echo base_url() ?>index.php/interest/lists',
-                                            method:'get',
-                                            valueField:'percentage',
-                                            textField:'percentage',
-                                            multiple:false,
-                                            panelHeight:'auto'
-                                            ">
+
+                    <td colspan="2">  <label>BDO/Agent name</label></td>
+                    <td colspan="3">
+                        <input class="easyui-combobox form-control" name="agentID" id="agentID" style="width:100%;height:26px" data-options="
+                               url:'<?php echo base_url() ?>index.php/agent/lists',
+                               method:'get',
+                               valueField:'id',
+                               textField:'name',
+                               multiple:false,
+                               panelHeight:'auto'
+                               ">     
                     </td>
+
                 </tr>
+
                 <tr>
-                    <td></td>
-                    <td> Amount payable</td>
-                    <td colspan="2">
-                        <input type="number" name="paid" placeholder="Amount paid/Deposited" id="paid"  class="form-control"/>
+
+                    <td colspan="2"><label>Bar code</label></td>
+                    <td colspan="3"><input type="number" name="barcode" placeholder="Bar code" id="barcode"  class="form-control"/>
                     </td>
 
                 </tr>
                 <tr>
-                    <td></td>
-                    <td> Discount</td>
-                    <td colspan="2" > <input class="easyui-combobox form-control" name="discountID" id="discountID" style="width:100%;height:26px" data-options="
-                                             url:'<?php echo base_url() ?>index.php/discount/lists',
-                                             method:'get',
-                                             valueField:'percentage',
-                                             textField:'percentage',
-                                             multiple:false,
-                                             panelHeight:'auto'
-                                             "></td>
 
+                    <td colspan="2">Region/VPC</td>
+                    <td colspan="3"> <input type="text" name="region" placeholder="Region /VPC " id="region"  class="form-control"/>
+                    </td>
+                    
+                </tr>               
 
-
-                </tr>
                 <tr>
-                    <td></td>
-                    <td> Active</td>
-                    <td colspan="2">
+
+                    <td colspan="2">Active</td>
+                    <td colspan="3">
                         <select class="form-control" id="active" name="active"> 
 
                             <option value="true">true</option> 
                             <option value="false">false</option>                                  
                         </select>      
                     </td>
-
-                </tr>
-                <tr>
-                    <td></td>
-                    <td > Amount payable</td>
-                    <td colspan="2"> 
-                        <input type="number" name="paid" placeholder="Amount paid/Deposited" id="paid"  class="form-control"/>
-                    </td>
-
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>Starting:</td>
-                    <td colspan="2"> 
-                        <input class="easyui-datebox" name="start" id="start" value="<?php echo date('d-m-Y'); ?>"/>   </th>
-
-
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>End:</td>
-                    <td colspan="2"> <input class="easyui-datebox" name="end" id="end" value="<?php echo date('d-m-Y'); ?>"/></th>
-
                 </tr>
 
             </table>
@@ -268,7 +319,7 @@
 
 <script>
     $(document).ready(function () {
-        document.body.style.zoom="80%"
+        document.body.style.zoom = "80%"
         $('#loading').hide();
 
         var payment = 0;
@@ -301,15 +352,16 @@
         //$("#tenantname").val($("input[name=tenant]").val());
         // $("#dater").val($("input[name=date]").val());
         var paid = $("#paid").val();
+        var period = $("#period").val();
 
         var packageID = $("input[name=packageID]").val();
         var interest = $("input[name=interestID]").val();
         var start = $("input[name=start]").val();
-        var end = $("input[name=end]").val();
+
         if (packageID !== null) {           // show loader 
             $('#loading').show();
             $.post("<?php echo base_url() ?>index.php/package/details", {
-                packageID: packageID, start: start, end: end, interest: interest, paid: paid
+                packageID: packageID, start: start, interest: interest, paid: paid, period: period
             }, function (response) {
                 //#emailInfo is a span which will show you message
                 $('#loading').hide();

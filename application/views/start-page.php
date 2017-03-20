@@ -2,7 +2,7 @@
 <style>
     #page-wrapper {
     position: inherit;
-    margin: 0 0 0 165px;
+    margin: 60 0 5 200px;
     padding: 0 30px;
     min-height: 1000px;
 }
