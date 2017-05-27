@@ -129,79 +129,74 @@
             <div class="modal-body">             
                 <form id="station-form" parsley-validate novalidate role="form" class="form-horizontal" name="login-form" enctype="multipart/form-data"  action='<?= base_url(); ?>index.php/user/create'  method="post">
                     <div class="item form-group">                    
-                        <label class="control-label col-md-12 col-sm-12 col-xs-12">Profile picture</label>  
-                        <div class="col-md-6 col-sm-6 col-xs-12">
+                        <label>Profile picture</label>  
+                       
                             <input type="file" name="userfile" id="userfile" class="btn-default btn-small"/>
                             <div id="imagePreview" ></div>      
-                        </div>
+                      
                     </div>
                     <div class=" item form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Select Role</label>
-                        <div class="col-md-6 col-sm-5 col-xs-12">
+                        <label>Select Role</label>
+                        <input class="easyui-combobox form-control" name="roleID" id="roleID" style="width:100%;height:26px" data-options="
+                               url:'<?php echo base_url() ?>index.php/role/lists',
+                               method:'get',
+                               valueField:'id',
+                               textField:'name',
+                               multiple:false,
+                               panelHeight:'auto'
+                               ">
 
-                            <input class="easyui-combobox form-control" name="roleID" id="roleID" style="width:100%;height:26px" data-options="
-                                   url:'<?php echo base_url() ?>index.php/role/lists',
-                                   method:'get',
-                                   valueField:'id',
-                                   textField:'name',
-                                   multiple:false,
-                                   panelHeight:'auto'
-                                   ">
-                        </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-sm-10">
-                            <label >Active</label>
-                            <select class="form-control" id="status" name="status"> 
+                        <label >Select Store</label>
+                        <input class="easyui-combobox form-control" name="storeID" id="storeID" style="width:100%;height:26px" data-options="
+                               url:'<?php echo base_url() ?>index.php/store/lists',
+                               method:'get',
+                               valueField:'id',
+                               textField:'name',
+                               multiple:false,
+                               panelHeight:'auto'
+                               ">
+                    </div>
+          
+            <div class="form-group">
 
-                                <option value="active">active</option> 
-                                <option value="dull">dull</option>                                  
-                            </select>
-                        </div><!--/col-sm-9--> 
-                    </div><!--/form-group-->
-                    <div class="form-group">
-                        <div class="col-sm-10">
-                            <input type="text" name="name" placeholder="Full Name" id="name" required class="form-control"/>
-                        </div>
-                    </div>                  
+                <label >Active</label>
+                <select class="form-control" id="status" name="status"> 
+                    <option value="active">active</option> 
+                    <option value="dull">dull</option>                                  
+                </select>
+            </div><!--/form-group-->
+            <div class="form-group">                
+                    <input type="text" name="name" placeholder="Full Name" id="name" required class="form-control"/>               
+            </div>                  
 
-                    <div>
-                        <div class="form-group">
-                            <div class="col-sm-10">
-                                <input type="text" name="contact" placeholder="Contact No."  class="form-control"/>
-                            </div>
-                        </div>
+            <div>
+                <div class="form-group">                    
+                        <input type="text" name="contact" placeholder="Contact No."  class="form-control"/>                 
+                </div>
 
-                        <div class="form-group">
+                <div class="form-group">                   
+                        <input type="text" name="email" placeholder="Email" id="email"  class="form-control"/>                    
+                </div>
+                <div class="form-group">
+                    <label for="email">Password:</label>
+                    <input type="password" class="form-control" name="password" id="password" placeholder="Password" value="" />                                                   
 
-                            <div class="col-sm-10">
-                                <input type="text" name="email" placeholder="Email" id="email"  class="form-control"/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Password:</label>
-                            <input type="password" class="form-control" name="password" id="password" placeholder="Password" value="" />                                                   
+                </div>
+                <div class="form-group">
+                    <label for="pwd">Confirm password:</label>
+                    <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" placeholder="Confirm password" value="" />
 
-                        </div>
-                        <div class="form-group">
-                            <label for="pwd">Confirm password:</label>
-                            <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" placeholder="Confirm password" value="" />
+                </div>  
 
-                        </div>  
-
-                        <div class="form-group">
-                            <div class=" col-sm-10">
-                                <div class="checkbox checkbox_margin">
-                                    <button class="btn btn-default pull-right" type="submit">SUBMIT</button>
-                                </div>
-                            </div>
-                        </div>
+               
 
                 </form>
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Close</button>    <button class="btn btn-success pull-right" type="submit">SUBMIT</button>
 
             </div>
         </div>

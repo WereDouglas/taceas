@@ -25,6 +25,18 @@ class Inventory extends CI_Controller {
         }
         $this->load->view('view-inventory', $data);
     }
+    
+      public function package() {
+
+        $query = $this->Md->query("SELECT *,package.name AS package,store.name AS store,package_inventory.id AS id FROM package_inventory LEFT JOIN store ON store.id = package_inventory.storeID LEFT JOIN package ON package.id = package_inventory.packageID");
+    
+        if ($query) {
+            $data['dis'] = $query;
+        } else {
+            $data['dis'] = array();
+        }
+        $this->load->view('view-inventory-package', $data);
+    }
 
     public function GUID() {
         if (function_exists('com_create_guid') === true) {
@@ -44,6 +56,19 @@ class Inventory extends CI_Controller {
             $status .= '<div class="alert alert-success">  <strong>Information submitted</strong></div>';
             $this->session->set_flashdata('msg', $status);
             redirect('inventory', 'refresh');
+        }
+    }
+    
+    public function create_package() {
+        $this->load->helper(array('form', 'url'));
+      
+        if ($this->input->post('packageID') != "") {
+            
+            $comp = array('packageID' => $this->input->post('packageID'),'storeID'=>$this->input->post('storeID'),'qty'=>$this->input->post('qty'),'date'=>  date('d-m-Y'));
+            $this->Md->save($comp, 'package_inventory');
+            $status .= '<div class="alert alert-success">  <strong>Information submitted</strong></div>';
+            $this->session->set_flashdata('msg', $status);
+            redirect('inventory/package', 'refresh');
         }
     }
 

@@ -11,7 +11,7 @@
     <div class="row">
         <!-- Page Header -->
         <div class="col-lg-12">
-            <h1 class="page-header">Dashboard</h1>
+            <h1 class="page-header">Dashboard <?php echo $this->session->userdata('store') ;?> Store</h1>
         </div>
         <!--End Page Header -->
     </div>
@@ -19,7 +19,7 @@
         <!--quick info section -->
         <div class="col-lg-3">
             <div class="alert alert-danger text-center">
-                <i class="fa fa-calendar fa-2x"></i>&nbsp;<b>20 </b>Meetings Sheduled This Month
+                <i class="fa fa-calendar fa-2x"></i>&nbsp;<b>20 </b>Meetings Scheduled This Month
 
             </div>
         </div>

@@ -126,7 +126,7 @@ class Account extends CI_Controller {
 		  </tr>';
 
 
-              
+
                 echo '
                     
                      
@@ -170,7 +170,7 @@ class Account extends CI_Controller {
 
             ';
                 echo '</table>';
-               }
+            }
         }
     }
 
@@ -179,7 +179,7 @@ class Account extends CI_Controller {
         $this->load->helper(array('form', 'url'));
         //user information
         // $userID = $this->GUID();
-        $name = $this->input->post('name').' '.$this->input->post('last_name');
+        $name = $this->input->post('name') . ' ' . $this->input->post('last_name');
 
         if ($name != "") {
             ///organisation image uploads
@@ -195,20 +195,26 @@ class Account extends CI_Controller {
                 $status .= '<div class="alert alert-error"> <strong>' . $msg . '</strong></div>';
             }
             $paid = $this->input->post('paid');
-            $interest = ($this->input->post('interestID') / 100) * $paid;
-            $discount = ($this->input->post('discountID') / 100) * $paid;
-            $commission = ($this->input->post('commission') / 100) * $paid;
+
 
             $data = $this->upload->data();
             $userfile = $data['file_name'];
-            $comp = array('name' => $this->input->post('name'), 'contact' => $this->input->post('contact'), 'email' => $this->input->post('email'), 'nok' => $this->input->post('nok'), 'agentID' => $this->input->post('agentID'), 'image' => $userfile, 'created' => date('Y-m-d H:i:s'));
+            $comp = array('name' => $this->input->post('name'), 'contact' => $this->input->post('contact'), 'email' => $this->input->post('email'), 'nok' => $this->input->post('nok'), 'agentID' => $this->input->post('agentID'), 'image' => $userfile, 'created' => date('Y-m-d H:i:s'), 'village' => $this->input->post('village'), 'subcounty' => $this->input->post('subcounty'), 'district' => $this->input->post('district'), 'idno' => $this->input->post('idno'), 'kin_name' => $this->input->post('kin_name'), 'kin_contact' => $this->input->post('kin_contact'), 'kin_district' => $this->input->post('kin_district'), 'relationship' => $this->input->post('relationship'), 'lc' => $this->input->post('lc'));
             $last_id = $this->Md->save($comp, 'customer');
             if ($last_id) {
-                $user = array('customerID' => $last_id, 'agentID' => $this->input->post('agentID'), 'start' => date("d-m-Y", strtotime($this->input->post('start'))), 'end' => date("d-m-Y", strtotime($this->input->post('enddate'))), 'created' => date('Y-m-d'), 'expiry' => date("d-m-Y", strtotime($this->input->post('end'))), 'cost' => $this->input->post('cost'), 'packageID' => $this->input->post('packageID'), 'productID' => $this->input->post('productID'), 'interest' => $this->input->post('interestID'), 'discount' => $this->input->post('discountID'), 'daily' => $this->input->post('daily'), 'monthly' => $this->input->post('monthly'), 'commission' => $this->input->post('commission'), 'meterNo' => $this->input->post('meterNo'), 'complete' => $this->input->post('complete'), 'active' => $this->input->post('active'), 'balance' => $this->input->post('balance'));
+                $user = array('customerID' => $last_id, 'agentID' => $this->input->post('agentID'), 'start' => date("d-m-Y", strtotime($this->input->post('start'))), 'end' => date("d-m-Y", strtotime($this->input->post('enddate'))), 'created' => date('Y-m-d'), 'expiry' => date("d-m-Y", strtotime($this->input->post('end'))), 'cost' => $this->input->post('cost'), 'packageID' => $this->input->post('packageID'), 'productID' => $this->input->post('productID'), 'interest' => $this->input->post('interestID'), 'period' => $this->input->post('period'), 'daily' => $this->input->post('daily'), 'monthly' => $this->input->post('monthly'), 'commission' => $this->input->post('commission'), 'meterNo' => $this->input->post('meterNo'), 'complete' => $this->input->post('complete'), 'active' => $this->input->post('active'), 'balance' => $this->input->post('balance'), 'installation_cost' => $this->input->post('installation'), 'installed_by' => $this->input->post('installed_by'), 'barcode' => $this->input->post('barcode'), 'vpc' => $this->input->post('region'));
                 $account_id = $this->Md->save($user, 'account');
+
+                $packageID = $this->input->post('packageID');
+                $qty = $this->Md->query_cell("SELECT qty FROM package_inventory WHERE storeID= '" . $this->session->userdata('storeID') . "' AND packageID= '" . $packageID . "'", 'qty');
+                $ID = $this->Md->query_cell("SELECT id FROM package_inventory WHERE storeID= '" . $this->session->userdata('storeID') . "' AND packageID= '" . $packageID . "'", 'id');
+
+                $bal = $qty - $this->input->post('qty');
+                $task = array('qty' => $bal);                
+                $this->Md->update_dynamic($ID, 'id', 'package_inventory', $task);
             }
             if ($account_id) {
-                $user = array('accountID' => $account_id, 'date' => date('d-m-Y'), 'amount' => $this->input->post('paid'), 'interest' => $interest, 'discount' => $discount, 'commission' => $commission, 'previous' => date("d-m-Y", strtotime($this->input->post('start'))), 'current' => $this->input->post('enddate'), 'period' => $this->input->post('period'));
+                $user = array('accountID' => $account_id, 'date' => date('d-m-Y'), 'amount' => $this->input->post('totalPay'), 'interest' => $interest, 'discount' => $discount, 'commission' => $commission, 'previous' => date("d-m-Y", strtotime($this->input->post('start'))), 'current' => $this->input->post('enddate'), 'period' => $this->input->post('period'));
                 $account_id = $this->Md->save($user, 'payment');
             }
             $status .= '<div class="alert alert-success">  <strong>Information submitted</strong></div>';

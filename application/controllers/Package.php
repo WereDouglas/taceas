@@ -60,6 +60,7 @@ class Package extends CI_Controller {
         $period = trim($this->input->post('period'));
         $end = trim(date('d-m-Y', strtotime('+' . $period . ' month', strtotime($start))));
         $paid = trim($this->input->post('paid'));
+        $installation = trim($this->input->post('installation'));
 
         $months = $period;
         echo '<div class="panel-body container">';
@@ -70,7 +71,7 @@ class Package extends CI_Controller {
         } else {
 
             echo ' <div class="form-group">
-                    <label ">End date</label>                     
+                    <label ">Expiry date</label>                     
                             <input type="text" name="end" value="' . $end . '"  class="form-control"/>
                      
                     </div>';
@@ -104,15 +105,15 @@ class Package extends CI_Controller {
         }
         $overtotal = (($interest / 100) * $cost) + $cost;
         $balance = $overtotal - $paid;
-       
-        
+
+
         $fiveDays = date("d-m-Y", strtotime($start . "+" . $days_paid . "days"));
         if ($balance > 0) {
             $complete = "false";
         } else {
             $complete = "true";
         }
-       
+
 
         echo '<div>';
         $interest = $interest;
@@ -126,39 +127,51 @@ class Package extends CI_Controller {
                         </div>';
 
 
-        $debt_principal = $cost - $initial_pay;
-        echo ' <div class="form-group row">
-                    <label class="col-sm-4">Balance</label>
-                        <div class="col-sm-4 ">
-                            <input type="text" name="balance" value="' . $debt_principal . '"  class="receipt"/>
-                        </div>
-                    </div>';
-         $days = ($months * 4.33) * 7;
 
-       
+        $debt_principal = $cost - $initial_pay;
+
+        $days = ($months * 4.33) * 7;
+
         $interest_on_loan = ($interest / 100) * $debt_principal;
 
         $total_loan = $debt_principal + $interest_on_loan;
-         echo ' <div class="form-group row">
-                    <label class="col-sm-4">Period(Days)</label>
+        echo ' <div class="form-group row">
+             <label class="col-sm-4">Monthly cost for ' . round($months) . '</label>
                         <div class="col-sm-2 ">
-                            <input type="text" name="days" value="' . round($days ). '"  class="receipt"/>
+                            <input type="text" name="monthly" value="' . round(($total_loan / $months), -3) . '"  class="receipt"/>
                         </div>
-                        <label class="col-sm-4">Daily cost</label>
+                   
+                        <label class="col-sm-4">Daily cost for ' . round($days) . '</label>
                         <div class="col-sm-2 ">
-                            <input type="text" name="daily" value="' .round(($total_loan / $days), -3) . '"  class="receipt"/>
-                        </div>
-                    </div>';
-             echo ' <div class="form-group row">
-                    <label class="col-sm-4">Period(Months)</label>
-                        <div class="col-sm-2 ">
-                            <input type="text" name="months" value="' . round($months) . '"  class="receipt"/>
-                        </div>
-                         <label class="col-sm-4">Monthly cost</label>
-                        <div class="col-sm-2 ">
-                            <input type="text" name="monthly" value="' . round(($total_loan  / $months), -3) . '"  class="receipt"/>
+                            <input type="text" name="daily" value="' . round(($total_loan / $days), -3) . '"  class="receipt"/>
                         </div>
                     </div>';
+
+        $weeks_pay = (round(($total_loan / $days), -3)) * 14;
+
+        echo'<div class="form-group">
+                            <label>2 weeks down payment</label>
+                            <input type="number" name="payment" value="' . $weeks_pay . '" placeholder="" id="payment"  class="form-control"/>
+              </div>';
+        $nextdue = date("d-m-Y", strtotime($start . "+14 days"));
+        echo'<div class="form-group">
+                            <label>Next payment due date</label>
+                            <input type="text" name="enddate" value="' . $nextdue . '" id="enddate"  class="form-control"/>
+              </div>';
+        $totalPay = $initial_pay + $weeks_pay + $installation;
+
+        echo'<div class="form-group">
+                            <label>Total payment</label>
+                            <input type="number" name="totalPay" value="' . $totalPay . '" id="enddate"  class="form-control"/>
+              </div>';
+        $balance = $debt_principal - $totalPay;
+        echo ' <div class="form-group row">
+                    <label class="col-sm-4">Balance</label>
+                        <div class="col-sm-4 ">
+                            <input type="text" name="balance" value="' . $balance . '"  class="receipt"/>
+                        </div>
+                    </div>';
+
 
 
 

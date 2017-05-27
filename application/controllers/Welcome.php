@@ -17,7 +17,6 @@ class Welcome extends CI_Controller {
 
         $this->load->view('login-page');
     }
-    
 
     public function version() {
 
@@ -25,50 +24,14 @@ class Welcome extends CI_Controller {
     }
 
     public function home() {
-        if ($this->session->userdata('username') != "") {
-
-            $query = $this->Md->query("SELECT * FROM sync_data where org = '" . $this->session->userdata('orgid') . "' ");
-            //  var_dump($query);
-            if ($query) {
-                $data['logs'] = $query;
-            } else {
-                $data['logs'] = array();
-            }
-
-            $query = $this->Md->query("SELECT * FROM users WHERE types='client' AND org = '" . $this->session->userdata('orgid') . "'");
-            //  var_dump($query);
-            if ($query) {
-                $data['clients'] = $query;
-            } else {
-                $data['clients'] = array();
-            }
-            $query = $this->Md->query("SELECT * FROM schedule where org = '" . $this->session->userdata('orgid') . "' and dated ='" . date('Y-m-d') . "'");
-            //  var_dump($query);
-            if ($query) {
-                $data['schedules'] = $query;
-            } else {
-                $data['schedules'] = array();
-            }
-            $query = $this->Md->query("SELECT * FROM schedule where org = '" . $this->session->userdata('orgid') . "' and dated ='" . date('d-m-Y') . "'");
-            //  var_dump($query);
-            if ($query) {
-                $data['schedules'] = $query;
-            } else {
-                $data['schedules'] = array();
-            }
-            $query = $this->Md->query("SELECT * FROM files where org = '" . $this->session->userdata('orgid') . "'");
-            //  var_dump($query);
-            if ($query) {
-                $data['files'] = $query;
-            } else {
-                $data['files'] = array();
-            }
-
-            $this->load->view('home', $data);
+        if ($this->session->userdata('name') != "") {
+            $this->load->view('home-page');
+            return;
         } else {
 
             $this->session->sess_destroy();
             redirect('welcome', 'refresh');
+            return;
         }
     }
 
@@ -89,67 +52,37 @@ class Welcome extends CI_Controller {
     }
 
     public function login() {
-        
-          $this->load->view('home-page');
-          return;
 
         $this->load->helper(array('form', 'url'));
-        $email = $this->input->post('email');
-        $password_now = $this->input->post('password');
-        $get_user = $this->Md->check($email, 'email', 'users');
 
-        if (!$get_user) {
-
-            $results = $this->Md->get('email', $email, 'users');
-            //var_dump($results);
-            foreach ($results as $resv) {
-                $key = $email;
-                $password = $this->encrypt->decode($resv->password, $key);
-                $org = $res->org;
-
-                $orgs = $this->Md->get('id', $resv->org, 'organisation');
-                foreach ($orgs as $res) {
-                    $name = $res->name;
-                    $orgimage = $res->image;
-                    $starts = $res->starts;
-                    $ends = $res->ends;
-                    $code = $res->code;
-                    $license = $res->keys;
-                    $address = $res->address;
-                    $emails = $res->sync;
-                }
-                $this->session->set_userdata('name', $name);
-                $this->session->set_userdata('orgimage', $orgimage);
-                $this->session->set_userdata('address', $address);
-                $this->session->set_userdata('starts', $starts);
-                $this->session->set_userdata('ends', $ends);
-                $this->session->set_userdata('code', $code);
-                $this->session->set_userdata('emails', $emails);
-                $this->session->set_userdata('license', $license);
-                $this->session->set_userdata('username', $resv->name);
-                $this->session->set_userdata('orgid', $resv->org);
+        $get_result = $this->Md->query("SELECT *,user.id AS userID,role.name AS role,role.actions AS permission,user.name AS name,user.contact AS contact,user.email AS email,user.image AS image FROM user LEFT JOIN role ON role.id = user.role WHERE (user.name ='" . $this->input->post('name') . "' OR user.contact ='" . $this->input->post('name') . "' OR user.email = '" . $this->input->post('name') . "' ) AND user.password = '" . md5($this->input->post('password')) . "' ");
+        // var_dump($get_result);
+        // return;
+        if (is_array($get_result) && count($get_result) > 0) {
+            foreach ($get_result as $res) {
+                $storeID = $this->Md->query_cell("SELECT id FROM store where id= '" . $res->store . "'", 'id');
+                $store = $this->Md->query_cell("SELECT name FROM store where id= '" . $res->store . "'", 'name');
 
                 $newdata = array(
-                    'id' => $resv->id,
-                    'email' => $resv->email,
-                    'userimage' => $resv->image,
-                    'title' => $resv->types,
-                    'level' => $resv->level,
-                    'status' => $resv->status,
-                    'logged_in' => TRUE
+                    'userID' => $res->userID,
+                    'name' => $res->name,
+                    'email' => $res->email,
+                    'contact' => $res->contact,
+                    'image' => $res->image,
+                    'permission' => $res->permission,
+                    'storeID' => $storeID,
+                    'store' => $store,
+                    'views' => $res->views,
+                    'role' => $res->role,
+                    'active' => $res->active
                 );
-                $this->session->set_userdata($newdata);
-            }
 
-            if ($password_now == $password) {
+                $this->session->set_userdata($newdata);
                 redirect('/welcome/home', 'refresh');
-            } else {
-                $this->session->set_flashdata('msg', '<div class="alert alert-error">  <strong>  ! invalid login credentials</div>');
-                redirect('welcome', 'refresh');
             }
         } else {
-
-            $this->session->set_flashdata('msg', '<div class="alert alert-error">  <strong>  ! This user does not exist</div>');
+            echo 'F';
+            $this->session->set_flashdata('msg', '<div class="alert alert-error">  <strong>  ! User does not exist</div>');
             redirect('welcome', 'refresh');
         }
     }

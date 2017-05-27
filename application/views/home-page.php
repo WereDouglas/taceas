@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>TACEAS</title>
+        <title>GESOP</title>
         <!-- Core CSS - Include with every page -->
         <link href="<?php echo base_url(); ?>assets/plugins/bootstrap/bootstrap.css" rel="stylesheet" />
         <link href="<?php echo base_url(); ?>assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
@@ -12,7 +12,7 @@
         <link href="<?php echo base_url(); ?>assets/css/main-style.css" rel="stylesheet" />
         <!-- Page-Level CSS -->
         <link href="<?php echo base_url(); ?>assets/plugins/morris/morris-0.4.3.min.css" rel="stylesheet" />
-      
+
     </head>
     <body>
         <!--  wrapper -->
@@ -36,9 +36,14 @@
                     <li>
 
                         <div>
-                            <img height="50px" width="50px" src="<?php echo base_url(); ?>images/temp.png" alt="">
+                            <?php if ($this->session->userdata('image') != "") { ?>
+                            <img class="img-circle" height="50px" width="50px" src="<?= base_url(); ?>uploads/<?php echo $this->session->userdata('image') ?>" alt="">
+                                <?php } else{ ?>
+                                <img class="img-circle" height="50px" width="50px" src="<?php echo base_url(); ?>images/temp.png" alt="">
+
+                            <?php } ?>
                         </div>
-                        <div><strong>Tom Matovu</strong></div>                                  
+                        <div><strong><?php echo $this->session->userdata('name') ?></strong></div>                                  
 
 
                     </li>
@@ -52,7 +57,7 @@
                             <li>
                                 <a href="#">
                                     <div>
-                                        <strong><span class=" label label-danger">Tom Matovu</span></strong>
+                                        <strong><span class=" label label-danger"><?php echo $this->session->userdata('name');?></span></strong>
                                         <span class="pull-right text-muted">
                                             <em>Yesterday</em>
                                         </span>
@@ -61,30 +66,7 @@
                                 </a>
                             </li>
                             <li class="divider"></li>
-                            <li>
-                                <a href="#">
-                                    <div>
-                                        <strong><span class=" label label-info">Jonney Depp</span></strong>
-                                        <span class="pull-right text-muted">
-                                            <em>Yesterday</em>
-                                        </span>
-                                    </div>
-                                    <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a href="#">
-                                    <div>
-                                        <strong><span class=" label label-success">Jonney Depp</span></strong>
-                                        <span class="pull-right text-muted">
-                                            <em>Yesterday</em>
-                                        </span>
-                                    </div>
-                                    <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
-                                </a>
-                            </li>
-                            <li class="divider"></li>
+                          
                             <li>
                                 <a class="text-center" href="#">
                                     <strong>Read All Messages</strong>
@@ -116,54 +98,7 @@
                                     </div>
                                 </a>
                             </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a href="#">
-                                    <div>
-                                        <p>
-                                            <strong>Task 2</strong>
-                                            <span class="pull-right text-muted">20% Complete</span>
-                                        </p>
-                                        <div class="progress progress-striped active">
-                                            <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
-                                                <span class="sr-only">20% Complete</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a href="#">
-                                    <div>
-                                        <p>
-                                            <strong>Task 3</strong>
-                                            <span class="pull-right text-muted">60% Complete</span>
-                                        </p>
-                                        <div class="progress progress-striped active">
-                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
-                                                <span class="sr-only">60% Complete (warning)</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a href="#">
-                                    <div>
-                                        <p>
-                                            <strong>Task 4</strong>
-                                            <span class="pull-right text-muted">80% Complete</span>
-                                        </p>
-                                        <div class="progress progress-striped active">
-                                            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
-                                                <span class="sr-only">80% Complete (danger)</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
+                        
                             <li class="divider"></li>
                             <li>
                                 <a class="text-center" href="#">
@@ -189,42 +124,7 @@
                                     </div>
                                 </a>
                             </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a href="#">
-                                    <div>
-                                        <i class="fa fa-twitter fa-fw"></i>3 New Followers
-                                        <span class="pull-right text-muted small">12 minutes ago</span>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a href="#">
-                                    <div>
-                                        <i class="fa fa-envelope fa-fw"></i>Message Sent
-                                        <span class="pull-right text-muted small">4 minutes ago</span>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a href="#">
-                                    <div>
-                                        <i class="fa fa-tasks fa-fw"></i>New Task
-                                        <span class="pull-right text-muted small">4 minutes ago</span>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a href="#">
-                                    <div>
-                                        <i class="fa fa-upload fa-fw"></i>Server Rebooted
-                                        <span class="pull-right text-muted small">4 minutes ago</span>
-                                    </div>
-                                </a>
-                            </li>
+                           
                             <li class="divider"></li>
                             <li>
                                 <a class="text-center" href="#">
@@ -321,7 +221,10 @@
                                     <a target="frame" href="<?php echo base_url() . "index.php/store/"; ?>">Stores<i class="fa fa-globe fa-1x"></i></a>
                                 </li>
                                 <li class="text-right" >
-                                    <a target="frame" href="<?php echo base_url() . "index.php/inventory/"; ?>">Stock<i class="fa fa-globe fa-1x"></i></a>
+                                    <a target="frame" href="<?php echo base_url() . "index.php/inventory/"; ?>">Product Stock<i class="fa fa-globe fa-1x"></i></a>
+                                </li>
+                                <li class="text-right" >
+                                    <a target="frame" href="<?php echo base_url() . "index.php/inventory/package"; ?>">Package Stock<i class="fa fa-globe fa-1x"></i></a>
                                 </li>
                             </ul>
                             <!-- second-level-items -->

@@ -58,7 +58,7 @@ class User extends CI_Controller {
             }
             $data = $this->upload->data();
             $userfile = $data['file_name'];
-            $user = array('name' => $this->input->post('name'), 'role' => $this->input->post('roleID'), 'contact' => $this->input->post('contact'), 'email' => $this->input->post('email'), 'password' => md5($this->input->post('password')), 'image' => $userfile, 'created' => date('Y-m-d H:i:s'), 'status' =>$this->input->post('status'));
+            $user = array('name' => $this->input->post('name'), 'role' => $this->input->post('roleID'), 'contact' => $this->input->post('contact'), 'email' => $this->input->post('email'), 'password' => md5($this->input->post('password')), 'image' => $userfile, 'created' => date('Y-m-d H:i:s'), 'status' =>$this->input->post('status'), 'store' =>$this->input->post('storeID'));
             $this->Md->save($user, 'user');
 
             $status .= '<div class="alert alert-success">  <strong>Information submitted</strong></div>';

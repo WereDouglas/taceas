@@ -45,9 +45,7 @@
                 <img id="image" height="80px" width="140px" src="<?= base_url(); ?>images/barcode.png" alt="logo" />
 
                 <div id="identity">
-
-                    <textarea id="customer-title">TACEAS</textarea>
-
+                    <textarea id="customer-title">GESOP</textarea>
                 </div>
 
                 <table id="meta">
@@ -100,7 +98,7 @@
                             <input class="easyui-combobox form-control" name="village" id="village" style="width:100%;height:26px" data-options="
                                    url:'<?php echo base_url() ?>index.php/village/lists',
                                    method:'get',
-                                   valueField:'id',
+                                   valueField:'name',
                                    textField:'name',
                                    multiple:false,
                                    panelHeight:'auto'
@@ -111,7 +109,7 @@
                             <input class="easyui-combobox form-control" name="subcounty" id="subcounty" style="width:100%;height:26px" data-options="
                                    url:'<?php echo base_url() ?>index.php/subcounty/lists',
                                    method:'get',
-                                   valueField:'id',
+                                   valueField:'name',
                                    textField:'name',
                                    multiple:false,
                                    panelHeight:'auto'
@@ -119,10 +117,10 @@
                         </div>
                         <div class="form-group">
                             <label>District</label>
-                            <input class="easyui-combobox form-control" name="village" id="village" style="width:100%;height:26px" data-options="
+                            <input class="easyui-combobox form-control" name="district" id="district" style="width:100%;height:26px" data-options="
                                    url:'<?php echo base_url() ?>index.php/district/lists',
                                    method:'get',
-                                   valueField:'id',
+                                   valueField:'anme',
                                    textField:'name',
                                    multiple:false,
                                    panelHeight:'auto'
@@ -143,22 +141,22 @@
 
                         <div class="form-group">
                             <label >Next of kin</label>
-                            <input type="text" name="nok" placeholder="Next of kin" id="nok"  class="form-control"/>                      
+                            <input type="text" name="kin_name" placeholder="Next of kin " id="kin_name"  class="form-control"/>                      
                         </div>
                         <div class="form-group">
                             <label >Next of kin phone</label>
-                            <input type="text" name="nok" placeholder="Next of kin" id="nok"  class="form-control"/>                      
+                            <input type="text" name="kin_contact" placeholder="Next of kin" id="nok"  class="form-control"/>                      
                         </div>
                         <div class="form-group">
                             <label >Relationship</label>
-                            <input type="text" name="nok" placeholder="Next of kin" id="nok"  class="form-control"/>                      
+                            <input type="text" name="relationship" placeholder="Relationship" id="nok"  class="form-control"/>                      
                         </div>
                         <div class="form-group">
                             <label>District</label>
-                            <input class="easyui-combobox form-control" name="village" id="village" style="width:100%;height:26px" data-options="
+                            <input class="easyui-combobox form-control" name="kin_district" id="kin_district" style="width:100%;height:26px" data-options="
                                    url:'<?php echo base_url() ?>index.php/district/lists',
                                    method:'get',
-                                   valueField:'id',
+                                   valueField:'name',
                                    textField:'name',
                                    multiple:false,
                                    panelHeight:'auto'
@@ -204,7 +202,7 @@
                         </div>
                         <div class="form-group">
                             <label>Installed by</label>
-                            <input type="number" name="installed_by" placeholder="Installed by" id="installed_by"  class="form-control"/>
+                            <input type="text" name="installed_by" placeholder="Installed by" id="installed_by"  class="form-control"/>
                         </div>
                     </td>
                     <td colspan="3">
@@ -353,6 +351,7 @@
         // $("#dater").val($("input[name=date]").val());
         var paid = $("#paid").val();
         var period = $("#period").val();
+         var installation = $("#installation").val();
 
         var packageID = $("input[name=packageID]").val();
         var interest = $("input[name=interestID]").val();
@@ -361,7 +360,7 @@
         if (packageID !== null) {           // show loader 
             $('#loading').show();
             $.post("<?php echo base_url() ?>index.php/package/details", {
-                packageID: packageID, start: start, interest: interest, paid: paid, period: period
+                packageID: packageID, start: start, interest: interest, paid: paid, period: period,installation:installation
             }, function (response) {
                 //#emailInfo is a span which will show you message
                 $('#loading').hide();
